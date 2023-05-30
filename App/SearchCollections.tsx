@@ -55,23 +55,26 @@ export const SearchCollections = () => {
     <View style={styles.container}>
       <StickyHeader />
       <ScrollView>
-        {collectionData.map((video) => {
-          return (
-            <View key={video.id} style={styles.collection}>
-              <VideoCards
-                thumbnail={video.thumbnail}
-                title={video.title}
-                author={video.author}
-                icon={video.icon}
-                source={video.source}
-                views={video.views}
-              />
-            </View>
-          );
-        })}
+        <View>
+          {collectionData.map((video) => {
+            return (
+              <View key={video.id} style={styles.collection}>
+                <VideoCards
+                  thumbnail={video.thumbnail}
+                  title={video.title}
+                  author={video.author}
+                  icon={video.icon}
+                  source={video.source}
+                  views={video.views}
+                />
+              </View>
+            );
+          })}
+        </View>
+
+        <Navigation />
+        <Keyword />
       </ScrollView>
-      <Navigation />
-      <Keyword />
     </View>
   );
 };
