@@ -1,11 +1,13 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { StyleSheet, View, TextInput } from "react-native";
+import { StyleSheet, View, TextInput, TouchableOpacity } from "react-native";
 
 export const SearchBar = () => {
   return (
     <View style={styles.component}>
       <TextInput placeholder="Search here..." style={styles.textInput} />
+      <TouchableOpacity>
       <Ionicons name="search" size={20} color="#9ca3af" />
+      </TouchableOpacity>
     </View>
   );
 };
