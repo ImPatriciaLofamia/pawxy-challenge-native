@@ -1,105 +1,104 @@
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+
 interface VideoCollectionProps {
   id: number;
   thumbnail: string;
   title: string;
   author: string;
-  sosurce: string;
+  source: string;
   views: string;
-}
-
-interface SVGCollectionProps {
-  search: any;
+  icon: JSX.Element;
 }
 
 export const collectionData: VideoCollectionProps[] = [
   {
     id: 1,
     thumbnail: `https://picsum.photos/536/354`,
-    title:
-      "K-pop group BLACKPINK to release Ready For Love on July 29. Details inside. - India Today",
+    title: "K-pop group BLACKPINK to release Ready For Love...",
     author: "Blackpink",
-    sosurce: "YouTube.com",
+    source: "YouTube.com",
     views: "65m",
+    icon: <MaterialCommunityIcons name="youtube" color={"#dc2626"} size={15} />,
   },
   {
     id: 2,
     thumbnail: `https://picsum.photos/536/354`,
-    title:
-      "Must Watch: Blackpink Cover Elle, Vogue Launches New Podcast - Fashionista",
+    title: "K-pop group BLACKPINK to release Ready For Love...",
     author: "BP Fans",
-    sosurce: "YouTube.com",
+    source: "YouTube.com",
     views: "873k",
+    icon: <MaterialCommunityIcons name="youtube" color={"#dc2626"} size={15} />,
   },
   {
     id: 3,
     thumbnail: `https://picsum.photos/536/354`,
-    title:
-      "Blackpink: Lisa, Jennie, Rosé, and Jisoo on First Full Album and Global Fame",
+    title: "K-pop group BLACKPINK to release Ready For Love...",
     author: "Koreaboo",
-    sosurce: "YouTube.com",
+    source: "YouTube.com",
     views: "30m",
+    icon: <MaterialCommunityIcons name="youtube" color={"#dc2626"} size={15} />,
   },
   {
     id: 4,
     thumbnail: `https://picsum.photos/536/354`,
-    title:
-      "Must Watch: Blackpink Cover Elle, Vogue Launches New Podcast - Fashionista",
+    title: "K-pop group BLACKPINK to release Ready For Love...",
     author: "Kpop News",
-    sosurce: "YouTube.com",
+    source: "YouTube.com",
     views: "123k",
+    icon: <MaterialCommunityIcons name="youtube" color={"#dc2626"} size={15} />,
   },
-  {
-    id: 5,
-    thumbnail: `https://picsum.photos/536/354`,
-    title:
-      "K-pop group BLACKPINK to release Ready For Love on July 29. Details inside. - India Today",
-    author: "Blackpink",
-    sosurce: "YouTube.com",
-    views: "65m",
-  },
-  {
-    id: 6,
-    thumbnail: `https://picsum.photos/536/354`,
-    title:
-      "Must Watch: Blackpink Cover Elle, Vogue Launches New Podcast - Fashionista",
-    author: "BP Fans",
-    sosurce: "YouTube.com",
-    views: "873k",
-  },
-  {
-    id: 7,
-    thumbnail: `https://picsum.photos/536/354`,
-    title:
-      "Blackpink: Lisa, Jennie, Rosé, and Jisoo on First Full Album and Global Fame",
-    author: "Koreaboo",
-    sosurce: "YouTube.com",
-    views: "30m",
-  },
-  {
-    id: 8,
-    thumbnail: `https://picsum.photos/536/354`,
-    title:
-      "Must Watch: Blackpink Cover Elle, Vogue Launches New Podcast - Fashionista",
-    author: "Kpop News",
-    sosurce: "YouTube.com",
-    views: "123k",
-  },
-  {
-    id: 9,
-    thumbnail: `https://picsum.photos/536/354`,
-    title:
-      "Blackpink: Lisa, Jennie, Rosé, and Jisoo on First Full Album and Global Fame",
-    author: "Koreaboo",
-    sosurce: "YouTube.com",
-    views: "30m",
-  },
-  {
-    id: 10,
-    thumbnail: `https://picsum.photos/536/354`,
-    title:
-      "Must Watch: Blackpink Cover Elle, Vogue Launches New Podcast - Fashionista",
-    author: "Kpop News",
-    sosurce: "YouTube.com",
-    views: "123k",
-  },
-]
+  // {
+  //   id: 5,
+  //   thumbnail: `https://picsum.photos/536/354`,
+  //   title: "K-pop group BLACKPINK to release Ready For Love...",
+  //   author: "Blackpink",
+  //   source: "YouTube.com",
+  //   views: "65m",
+  //   icon: <MaterialCommunityIcons name="youtube" color={"#dc2626"} size={15} />,
+  // },
+  // {
+  //   id: 6,
+  //   thumbnail: `https://picsum.photos/536/354`,
+  //   title: "K-pop group BLACKPINK to release Ready For Love...",
+  //   author: "BP Fans",
+  //   source: "YouTube.com",
+  //   views: "873k",
+  //   icon: <MaterialCommunityIcons name="youtube" color={"#dc2626"} size={15} />,
+  // },
+  // {
+  //   id: 7,
+  //   thumbnail: `https://picsum.photos/536/354`,
+  //   title: "K-pop group BLACKPINK to release Ready For Love...",
+  //   author: "Koreaboo",
+  //   source: "YouTube.com",
+  //   views: "30m",
+  //   icon: <MaterialCommunityIcons name="youtube" color={"#dc2626"} size={15} />,
+  // },
+  // {
+  //   id: 8,
+  //   thumbnail: `https://picsum.photos/536/354`,
+  //   title: "K-pop group BLACKPINK to release Ready For Love...",
+  //   author: "Kpop News",
+  //   source: "YouTube.com",
+  //   views: "123k",
+  //   icon: <MaterialCommunityIcons name="youtube" color={"#dc2626"} size={15} />,
+  // },
+  // {
+  //   id: 9,
+  //   thumbnail: `https://picsum.photos/536/354`,
+  //   title: "K-pop group BLACKPINK to release Ready For Love...",
+  //   author: "Koreaboo",
+  //   source: "YouTube.com",
+  //   views: "30m",
+  //   icon: <MaterialCommunityIcons name="youtube" color={"#dc2626"} size={15} />,
+  // },
+  // {
+  //   id: 10,
+  //   thumbnail: `https://picsum.photos/536/354`,
+  //   title: "K-pop group BLACKPINK to release Ready For Love...",
+  //   author: "Kpop News",
+  //   source: "YouTube.com",
+  //   views: "123k",
+  //   icon: <MaterialCommunityIcons name="youtube" color={"#dc2626"} size={15} />,
+  // },
+];
