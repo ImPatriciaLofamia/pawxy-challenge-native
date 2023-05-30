@@ -1,5 +1,12 @@
 import React from "react";
-import { StyleSheet, Text, View, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Touchable,
+  TouchableOpacity,
+} from "react-native";
 
 interface Props {
   thumbnail: string;
@@ -19,7 +26,7 @@ const VideoCards = ({
   icon,
 }: Props) => {
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container}>
       <Image source={{ uri: `${thumbnail}` }} style={styles.thumbnail} />
       <View style={styles.textContainer}>
         <Text style={styles.header}>{title}</Text>
@@ -32,7 +39,7 @@ const VideoCards = ({
           <Text style={styles.text}>{views} views</Text>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -41,11 +48,11 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     gap: 10,
-    padding: 5
+    padding: 5,
   },
   thumbnail: {
-    width: '50%',
-    height: '100%',
+    width: "50%",
+    height: "100%",
     borderRadius: 6,
   },
   header: {
