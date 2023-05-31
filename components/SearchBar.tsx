@@ -1,11 +1,17 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { StyleSheet, View, TextInput, TouchableOpacity } from "react-native";
 
-export const SearchBar = () => {
+interface Props{
+  value?: any,
+  onChangeText?: any,
+  handleSearch?: () => void
+}
+
+export const SearchBar = ({value, onChangeText, handleSearch}: Props) => {
   return (
     <View style={styles.component}>
-      <TextInput placeholder="Search here..." style={styles.textInput} />
-      <TouchableOpacity>
+      <TextInput placeholder="Search here..." style={styles.textInput} value={value} onChangeText={onChangeText}/>
+      <TouchableOpacity onPress={handleSearch}>
       <Ionicons name="search" size={20} color="#9ca3af" />
       </TouchableOpacity>
     </View>

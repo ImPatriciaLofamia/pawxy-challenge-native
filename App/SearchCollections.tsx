@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import {
   StyleSheet,
-  ScrollView,
   View,
   Text,
   TouchableOpacity,
+  FlatList,
   Image,
+  Linking,
 } from "react-native";
 import SearchBar from "../components/SearchBar";
 import { collectionData } from "../lib/data";
@@ -25,12 +26,21 @@ const StickyHeader = () => {
   );
 };
 
-const Navigation = () => {
+const Navigation = ({ currentPage, handlePagination }) => {
   return (
     <View style={styles.navigationContainer}>
-      <TouchableOpacity style={styles.NextButton}>
-        <Text style={styles.textButton}>Next</Text>
-        <MaterialCommunityIcons name="arrow-right" size={16} />
+      <TouchableOpacity
+        style={styles.navigationButton}
+        onPress={() => handlePagination("previous")}
+      >
+        <Text style={styles.navigationButtonText}>Previous</Text>
+      </TouchableOpacity>
+      <Text style={styles.currentPageText}>{currentPage}</Text>
+      <TouchableOpacity
+        style={styles.navigationButton}
+        onPress={() => handlePagination("next")}
+      >
+        <Text style={styles.navigationButtonText}>Next</Text>
       </TouchableOpacity>
     </View>
   );
@@ -41,118 +51,152 @@ const Keyword = () => {
     <TouchableOpacity>
       <View style={styles.keyword}>
         <Ionicons name="search" size={16} color="#0284c7" />
-        <Text
-          style={{
-            color: "#0284c7",
-          }}
-        >
-          Search keyword on Google
-        </Text>
+        <Text style={{ color: "#0284c7" }}>Search keyword on Google</Text>
       </View>
     </TouchableOpacity>
   );
 };
 
 export const SearchCollections = () => {
-  const [preview, setPreview] = useState(false);
+  const [selectedVideoId, setSelectedVideoId] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const openPreview = (videoId) => {
+    setSelectedVideoId(videoId);
+  };
 
   const closePreview = () => {
-    setPreview(false);
-  }
+    setSelectedVideoId(null);
+  };
 
-  
+  const handlePagination = (action) => {
+    if (action === "previous") {
+      const newPage = currentPage - 1;
+      if (newPage > 0) {
+        setCurrentPage(newPage);
+      }
+    } else if (action === "next") {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const itemsPerPage = 4;
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+
+  const visibleItems = collectionData.slice(startIndex, endIndex);
 
   return (
-      <View style={styles.container}>
-        <StickyHeader />
-        <ScrollView>
-          <View>
-            {collectionData.map((video) => {
-              return (
-                <View key={video.id} style={styles.collection}>
-                  <VideoCards
-                    onPress={() => {
-                      setPreview(true);
-                    }}
-                    thumbnail={video.thumbnail}
-                    title={video.title}
-                    author={video.author}
-                    icon={video.icon}
-                    source={video.source}
-                    views={video.views}
-                  />
-                </View>
-              );
-            })}
-          </View>
-          <Navigation />
-          <Keyword />
-        </ScrollView>
-         {
-        preview && (
-        <View style={styles.pullercontainer}>
-          <View style={styles.puller} />
-          <Text style={styles.previewText}>Preview</Text>
-          <Image
-            source={{ uri: "https://picsum.photos/536/354" }}
-            style={{ height: 200, backgroundColor: "#f2f2f2", marginTop: 16 }}
-          />
-          <Text style={{ fontSize: 18, fontWeight: "bold", marginTop: 16 }}>
-            Must Watch: Blackpink Cover 'Elle', 'Vogue' Launches New Podcast -
-            Fashionista
-          </Text>
-          <View
-            style={{
-              flexDirection: "row",
-              marginTop: 8,
-              alignItems: "center",
-              gap: 5,
-            }}
-          >
-            <MaterialCommunityIcons
-              name="youtube"
-              size={15}
-              color={"#dc2626"}
+    <View style={styles.container}>
+      <StickyHeader />
+      <FlatList
+        data={visibleItems}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => (
+          <View style={styles.collection}>
+            <VideoCards
+              onPress={() => openPreview(item.id)}
+              thumbnail={item.thumbnail}
+              title={item.title}
+              author={item.author}
+              icon={item.icon}
+              source={item.source}
+              views={item.views}
             />
-            <Text style={{ marginRight: 8 }}>Koreaboo</Text>
-            <Text>123k Views</Text>
           </View>
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              style={{
-                backgroundColor: "#3b82f6",
-                padding: 10,
-                width: "25%",
-                borderRadius: 24,
-              }}
-              onPress={() => {
+        )}
+        ListFooterComponent={() => (
+          <TouchableOpacity onPress={handlePagination}>
+            <View style={styles.loadMoreButton}></View>
+          </TouchableOpacity>
+        )}
+      />
+      <Navigation
+        currentPage={currentPage}
+        handlePagination={handlePagination}
+      />
 
+      <Keyword />
+      {selectedVideoId && (
+        <Puller>
+          <View style={styles.pullercontainer}>
+            <View style={styles.puller} />
+            <Text style={styles.previewText}>Preview</Text>
+            <Image
+              // source={{ uri: "https://picsum.photos/536/354" }}
+              source={{
+                uri: `https://picsum.photos/id/${selectedVideoId}/536/354`,
               }}
-            >
-              <Text style={styles.textPuller}>Visit</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
+              style={{ height: 200, backgroundColor: "#f2f2f2", marginTop: 16 }}
+            />
+            <Text style={{ fontSize: 18, fontWeight: "bold", marginTop: 16 }}>
+              {
+                collectionData.find((item) => item.id === selectedVideoId)
+                  ?.title
+              }
+            </Text>
+            <View
               style={{
-                backgroundColor: "#6b7280",
-                padding: 10,
-                width: "25%",
-                borderRadius: 24,
+                flexDirection: "row",
+                marginTop: 8,
+                alignItems: "center",
+                gap: 5,
               }}
-              onPress={closePreview}
             >
-              <Text style={styles.textPuller}>Close</Text>
-            </TouchableOpacity>
+              <MaterialCommunityIcons
+                name="youtube"
+                size={15}
+                color={"#dc2626"}
+              />
+              <Text style={{ marginRight: 8 }}>
+                {
+                  collectionData.find((item) => item.id === selectedVideoId)
+                    ?.author
+                }
+              </Text>
+              <Text>
+                {
+                  collectionData.find((item) => item.id === selectedVideoId)
+                    ?.views
+                }{" "}
+                views
+              </Text>
+            </View>
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: "#3b82f6",
+                  padding: 10,
+                  width: "25%",
+                  borderRadius: 24,
+                }}
+                onPress={() => {
+                  const youtubeURL = `https://www.youtube.com/watch?v=${selectedVideoId}`;
+                  Linking.openURL(youtubeURL);
+                }}
+              >
+                <Text style={styles.textPuller}>Visit</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: "#6b7280",
+                  padding: 10,
+                  width: "25%",
+                  borderRadius: 24,
+                }}
+                onPress={closePreview}
+              >
+                <Text style={styles.textPuller}>Close</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-        )
-      }
-      </View>
-     
+        </Puller>
+      )}
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  
   container: {
     flex: 1,
     width: "100%",
@@ -161,12 +205,6 @@ const styles = StyleSheet.create({
     display: "flex",
     gap: 10,
     marginTop: 10,
-    paddingTop: 20,
-    paddingBottom: 15,
-    backgroundColor: "#fff",
-  },
-  navigationContainer: {
-    display: "flex",
     paddingTop: 20,
     paddingBottom: 15,
     backgroundColor: "#fff",
@@ -195,68 +233,6 @@ const styles = StyleSheet.create({
     paddingBottom: 16,
     gap: 10,
   },
-
-  thumbnail: {
-    width: "100%",
-    height: "30%",
-  },
-  Row: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    alignContent: "center",
-    gap: 10,
-  },
-  textContainer: {
-    gap: 10,
-    padding: 5,
-    width: "90%",
-    alignSelf: "center",
-    dispplay: "flex",
-    flexDirection: "column",
-  },
-  header: {
-    fontSize: 16,
-    fontWeight: "500",
-    color: "#fff",
-  },
-  text: {
-    fontSize: 14,
-    color: "#52525b",
-  },
-  touchableText: {
-    textAlign: "center",
-    color: "#fff",
-    fontWeight: "600",
-  },
-  touchableButtonClose: {
-    backgroundColor: "#52525b",
-    borderWidth: 1,
-    width: "25%",
-    padding: 10,
-    borderRadius: 24,
-  },
-  touchableButtonVisit: {
-    backgroundColor: "#0369a1",
-    borderWidth: 1,
-    width: "25%",
-    padding: 10,
-    borderRadius: 24,
-  },
-  touchableContainer: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "flex-end",
-  },
-  bottomContainer: {
-    width: "100%",
-    display: "flex",
-    flexDirection: "column",
-    paddingTop: 10,
-    justifyContent: "space-around",
-  },
-
   pullercontainer: {
     position: "absolute",
     bottom: 0,
@@ -295,6 +271,42 @@ const styles = StyleSheet.create({
     color: "#fff",
     textAlign: "center",
     fontSize: 14,
+    fontWeight: "600",
+  },
+  loadMoreButton: {
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: 16,
+  },
+  loadMoreButtonText: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#3b82f6",
+  },
+  navigationContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingTop: 20,
+    paddingBottom: 15,
+    backgroundColor: "#fff",
+  },
+  navigationButton: {
+    backgroundColor: "#3b82f6",
+    padding: 10,
+    width: "25%",
+    borderRadius: 24,
+    paddingHorizontal: 16,
+  },
+  navigationButtonText: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#fff",
+    textAlign: "center",
+  },
+  currentPageText: {
+    fontSize: 16,
     fontWeight: "600",
   },
 });

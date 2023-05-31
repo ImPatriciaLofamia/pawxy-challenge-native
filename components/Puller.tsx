@@ -7,7 +7,7 @@ interface Props {
     children: JSX.Element;
 }
 
-export default function PullerDrawer({children} : Props) {
+export default function Puller({children} : Props) {
 
   return (
     <View style={{ flex: 1 }}>
