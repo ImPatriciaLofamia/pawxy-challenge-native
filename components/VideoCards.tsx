@@ -4,7 +4,6 @@ import {
   Text,
   View,
   Image,
-  Touchable,
   TouchableOpacity,
 } from "react-native";
 
@@ -15,6 +14,7 @@ interface Props {
   source: string;
   views: string;
   icon: JSX.Element;
+  onPress: () => void
 }
 
 const VideoCards = ({
@@ -24,9 +24,10 @@ const VideoCards = ({
   source,
   views,
   icon,
+  onPress
 }: Props) => {
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <Image source={{ uri: `${thumbnail}` }} style={styles.thumbnail} />
       <View style={styles.textContainer}>
         <Text style={styles.header}>{title}</Text>
