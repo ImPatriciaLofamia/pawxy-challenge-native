@@ -6,12 +6,12 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <SafeAreaProvider style={{flex: 1}}>
+    <SafeAreaProvider style={{ flex: 1 }}>
+      <View style={styles.container}>
         <SearchCollections />
         <StatusBar style="auto" />
-      </SafeAreaProvider>
-    </View>
+      </View>
+    </SafeAreaProvider>
   );
 }
 
@@ -19,6 +19,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    padding: 8
+    padding: 8,
   },
 });
